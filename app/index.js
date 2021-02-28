@@ -1,24 +1,24 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const employeeRole = {
+const employeesRole = {
     type: 'list',
     name: 'empRole',
     message: "What is the employee's role?",
     choices: ['Manager', 'Engineer', 'Intern']
 }
 
-const addOtherOption = {
-    type: "list",
-    name: "addOthers",
-    message: "Do you want to add another team member?",
-    choices: ['Add a Manager', 'Add an Enginer', 'Add an Intern', 'I do not want to add anyone else']
-};
+const addAnother = {
+    type: 'list',
+    name: 'empRole',
+    message: "Do you wish to add another team ",
+    choices: ['Manager', 'Engineer', 'Intern']
+}
 
-const managerPrompts = [{
+const managerQuestions = [{
         type: 'input',
         name: 'managerName',
-        message: "What is the manager's name?"
+        message: "What is the manager's name?",
     },
     {
         type: 'input',
@@ -35,10 +35,15 @@ const managerPrompts = [{
         name: 'officeNumber',
         message: "What is the manager's office phone number?"
     },
-    addOtherOption
+    {
+        type: "list",
+        name: "managerAdd",
+        message: "Do you want to add another team member?",
+        choices: ['Manager', 'Engineer', 'Intern', 'I do not wish to add someone else']
+    }
 ];
 
-const engineerPrompts = [{
+const engineerQuestions = [{
         type: 'input',
         name: 'engineerName',
         message: "What is the engineer's name?"
@@ -58,10 +63,15 @@ const engineerPrompts = [{
         name: 'github',
         message: "What is the engineer's GitHub username?"
     },
-    addOtherOption
+    {
+        type: "list",
+        name: "engineerAdd",
+        message: "Do you want to add another team member?",
+        choices: ['Manager', 'Engineer', 'Intern', 'I do not wish to add someone else']
+    }
 ];
 
-const internPrompts = [{
+const internQuestions = [{
         type: 'input',
         name: 'managerName',
         message: "What is the intern's name?"
@@ -81,20 +91,70 @@ const internPrompts = [{
         name: 'school',
         message: "Where does the intern go to school?"
     },
-    addOtherOption
+    {
+        type: "list",
+        name: "internAdd",
+        message: "Do you want to add another team member?",
+        choices: ['Manager', 'Engineer', 'Intern', 'I do not wish to add someone else']
+    }
 ];
 
 const init = () => {
-    inquirer.prompt(employeeRole)
+    inquirer.prompt(employeesRole)
         .then((response) => {
             if (response.empRole === 'Manager') {
-                return inquirer.prompt(managerPrompts)
+                return managerPrompt();
             } else if (response.empRole === 'Engineer') {
-                return inquirer.prompt(engineerPrompts)
+                return inquirer.prompt(engineerQuestions)
             } else if (response.empRole === 'Intern') {
-                return inquirer.prompt(internPrompts)
+                return inquirer.prompt(internQuestions)
             }
         })
 };
+
+managerPrompt = () => {
+    inquirer.prompt(managerQuestions)
+        .then((response) => {
+            if (response.managerAdd === "Manager")
+                return managerPrompt();
+            else if (response.managerAdd === "Engineer") {
+                return engineerPrompt();
+            } else if (response.managerAdd === "Intern") {
+                return internPrompt();
+            } else {
+                return false;
+            }
+        });
+}
+
+engineerPrompt = () => {
+    inquirer.prompt(engineerQuestions)
+        .then((response) => {
+            if (response.engineerAdd === "Manager")
+                return managerPrompt();
+            else if (response.engineerAdd === "Engineer") {
+                return engineerPrompt();
+            } else if (response.engineerAdd === "Intern") {
+                return internPrompt();
+            } else {
+                return false;
+            }
+        });
+}
+
+internPrompt = () => {
+    inquirer.prompt(internQuestions)
+        .then((response) => {
+            if (response.internAdd === "Manager")
+                return managerPrompt();
+            else if (response.internAdd === "Engineer") {
+                return engineerPrompt();
+            } else if (response.internAdd === "Intern") {
+                return internPrompt();
+            } else {
+                return false;
+            }
+        });
+}
 
 init();
