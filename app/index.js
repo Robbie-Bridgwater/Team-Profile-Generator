@@ -1,5 +1,27 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const writeFile = require('./src/writeFile')
+const generateHTML = require('./src/generateHTML')
+const Manager = require('./lib/manager');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
+
+const managers = [];
+const engineers = [];
+const interns = [];
+const allEmployees = { managers, engineers, interns }
+
+const managerPush = (response) => {
+    managers.push(new Manager(response.name, response.ID, response.email, response.officeNumber))
+};
+
+const internPush = (response) => {
+    interns.push(new Intern(response.name, response.ID, response.email, response.school))
+}
+
+const engineerPush = (response) => {
+    engineers.push(new Engineer(response.name, response.ID, response.email, response.github))
+}
 
 const employeesRole = {
     type: 'list',
@@ -10,17 +32,17 @@ const employeesRole = {
 
 const managerQuestions = [{
         type: 'input',
-        name: 'managerName',
+        name: 'name',
         message: "What is the manager's name?",
     },
     {
         type: 'input',
-        name: 'managerID',
+        name: 'ID',
         message: "What is the manager's ID number?"
     },
     {
         type: 'input',
-        name: 'managerEmail',
+        name: 'email',
         message: "What is the manager's email?"
     },
     {
@@ -38,17 +60,17 @@ const managerQuestions = [{
 
 const engineerQuestions = [{
         type: 'input',
-        name: 'engineerName',
+        name: 'name',
         message: "What is the engineer's name?"
     },
     {
         type: 'input',
-        name: 'engineerID',
+        name: 'ID',
         message: "What is the engineer's ID number?"
     },
     {
         type: 'input',
-        name: 'managerEmail',
+        name: 'email',
         message: "What is the engineer's email?"
     },
     {
@@ -66,17 +88,17 @@ const engineerQuestions = [{
 
 const internQuestions = [{
         type: 'input',
-        name: 'managerName',
+        name: 'name',
         message: "What is the intern's name?"
     },
     {
         type: 'input',
-        name: 'managerID',
+        name: 'ID',
         message: "What is the interns's ID number?"
     },
     {
         type: 'input',
-        name: 'managerEmail',
+        name: 'email',
         message: "What is the interns's email?"
     },
     {
@@ -101,53 +123,50 @@ const init = () => {
                 return inquirer.prompt(engineerQuestions)
             } else if (response.empRole === 'Intern') {
                 return inquirer.prompt(internQuestions)
-            }
+            } else false
         })
 };
 
 managerPrompt = () => {
     inquirer.prompt(managerQuestions)
         .then((response) => {
+            managerPush(response);
             if (response.managerAdd === "Manager")
                 return managerPrompt();
             else if (response.managerAdd === "Engineer") {
                 return engineerPrompt();
             } else if (response.managerAdd === "Intern") {
                 return internPrompt();
-            } else {
-                return false;
-            }
+            } else generateHTML(allEmployees)
         });
 }
 
 engineerPrompt = () => {
     inquirer.prompt(engineerQuestions)
         .then((response) => {
+            engineerPush(response);
             if (response.engineerAdd === "Manager")
                 return managerPrompt();
             else if (response.engineerAdd === "Engineer") {
                 return engineerPrompt();
             } else if (response.engineerAdd === "Intern") {
                 return internPrompt();
-            } else {
-                return false;
-            }
+            } else generateHTML(allEmployees)
         });
 }
 
 internPrompt = () => {
     inquirer.prompt(internQuestions)
         .then((response) => {
+            internPush(response);
             if (response.internAdd === "Manager")
                 return managerPrompt();
             else if (response.internAdd === "Engineer") {
                 return engineerPrompt();
             } else if (response.internAdd === "Intern") {
                 return internPrompt();
-            } else {
-                return false;
-            }
+            } else console.log(allEmployees)
         });
 }
 
-init();
+init()
