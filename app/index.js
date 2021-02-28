@@ -8,7 +8,7 @@ const employeeRole = {
     choices: ['Manager', 'Engineer', 'Intern']
 }
 
-const addOther = {
+const addOtherOption = {
     type: "list",
     name: "addOthers",
     message: "Do you want to add another team member?",
@@ -35,7 +35,7 @@ const managerPrompts = [{
         name: 'officeNumber',
         message: "What is the manager's office phone number?"
     },
-    addOther
+    addOtherOption
 ];
 
 const engineerPrompts = [{
@@ -58,7 +58,7 @@ const engineerPrompts = [{
         name: 'github',
         message: "What is the engineer's GitHub username?"
     },
-    addOther
+    addOtherOption
 ];
 
 const internPrompts = [{
@@ -81,7 +81,7 @@ const internPrompts = [{
         name: 'school',
         message: "Where does the intern go to school?"
     },
-    addOther
+    addOtherOption
 ];
 
 const init = () => {
