@@ -8,13 +8,6 @@ const employeesRole = {
     choices: ['Manager', 'Engineer', 'Intern']
 }
 
-const addAnother = {
-    type: 'list',
-    name: 'empRole',
-    message: "Do you wish to add another team ",
-    choices: ['Manager', 'Engineer', 'Intern']
-}
-
 const managerQuestions = [{
         type: 'input',
         name: 'managerName',
