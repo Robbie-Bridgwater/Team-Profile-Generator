@@ -1,172 +1,137 @@
+// DEPENDENCIES
 const inquirer = require('inquirer');
 const fs = require('fs');
-const writeFile = require('./src/writeFile')
-const generateHTML = require('./src/generateHTML')
-const Manager = require('./lib/manager');
-const Engineer = require('./lib/engineer');
-const Intern = require('./lib/intern');
+// CLASSES
+const Manager = require("./lib/manager");
+const Engineer = require("./lib/engineer");
+const Intern = require("./lib/intern");
+// QUESTION ARRAYS
+const employeeRole = require("./src/employeeRoleQuestions");
+const internQuestions = require("./src/internQuestions");
+const managerQuestions = require("./src/managerQuestions");
+const engineerQuestions = require("./src/engineerQuestions");
+// HTML
+const generateHTMLHead = require('./src/HTMLheader')
+const generateHTMLFooter = require('./src/HTMLfooter')
 
-const managers = [];
-const engineers = [];
-const interns = [];
-const allEmployees = { managers, engineers, interns }
-
-const managerPush = (response) => {
-    managers.push(new Manager(response.name, response.ID, response.email, response.officeNumber))
-};
-
-const internPush = (response) => {
-    interns.push(new Intern(response.name, response.ID, response.email, response.school))
-}
-
-const engineerPush = (response) => {
-    engineers.push(new Engineer(response.name, response.ID, response.email, response.github))
-}
-
-const employeesRole = {
-    type: 'list',
-    name: 'empRole',
-    message: "What is the employee's role?",
-    choices: ['Manager', 'Engineer', 'Intern']
-}
-
-const managerQuestions = [{
-        type: 'input',
-        name: 'name',
-        message: "What is the manager's name?",
-    },
-    {
-        type: 'input',
-        name: 'ID',
-        message: "What is the manager's ID number?"
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: "What is the manager's email?"
-    },
-    {
-        type: 'input',
-        name: 'officeNumber',
-        message: "What is the manager's office phone number?"
-    },
-    {
-        type: "list",
-        name: "managerAdd",
-        message: "Do you want to add another team member?",
-        choices: ['Manager', 'Engineer', 'Intern', 'I do not wish to add someone else']
-    }
-];
-
-const engineerQuestions = [{
-        type: 'input',
-        name: 'name',
-        message: "What is the engineer's name?"
-    },
-    {
-        type: 'input',
-        name: 'ID',
-        message: "What is the engineer's ID number?"
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: "What is the engineer's email?"
-    },
-    {
-        type: 'input',
-        name: 'github',
-        message: "What is the engineer's GitHub username?"
-    },
-    {
-        type: "list",
-        name: "engineerAdd",
-        message: "Do you want to add another team member?",
-        choices: ['Manager', 'Engineer', 'Intern', 'I do not wish to add someone else']
-    }
-];
-
-const internQuestions = [{
-        type: 'input',
-        name: 'name',
-        message: "What is the intern's name?"
-    },
-    {
-        type: 'input',
-        name: 'ID',
-        message: "What is the interns's ID number?"
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: "What is the interns's email?"
-    },
-    {
-        type: 'input',
-        name: 'school',
-        message: "Where does the intern go to school?"
-    },
-    {
-        type: "list",
-        name: "internAdd",
-        message: "Do you want to add another team member?",
-        choices: ['Manager', 'Engineer', 'Intern', 'I do not wish to add someone else']
-    }
-];
-
+// INITIALISE
 const init = () => {
-    inquirer.prompt(employeesRole)
+    inquirer.prompt(employeeRole)
         .then((response) => {
             if (response.empRole === 'Manager') {
-                return managerPrompt();
+                return fs.writeFileSync("./dist/Team-Profile.html", generateHTMLHead, (err) =>
+                    err ? console.error(err) : console.log('Team Profile successfully initiated.')), managerPrompt()
             } else if (response.empRole === 'Engineer') {
-                return inquirer.prompt(engineerQuestions)
+                return fs.writeFileSync("./dist/Team-Profile.html", generateHTMLHead, (err) =>
+                    err ? console.error(err) : console.log('Team Profile successfully initiated.')), engineerPromt()
             } else if (response.empRole === 'Intern') {
-                return inquirer.prompt(internQuestions)
+                return fs.writeFileSync("./dist/Team-Profile.html", generateHTMLHead, (err) =>
+                    err ? console.error(err) : console.log('Team Profile successfully initiated.')), internPrompt()
             } else false
         })
 };
 
+// PROMPTS
 managerPrompt = () => {
     inquirer.prompt(managerQuestions)
         .then((response) => {
-            managerPush(response);
+            fs.appendFileSync('./dist/Team-Profile.html', managerCard(response));
             if (response.managerAdd === "Manager")
                 return managerPrompt();
             else if (response.managerAdd === "Engineer") {
                 return engineerPrompt();
             } else if (response.managerAdd === "Intern") {
                 return internPrompt();
-            } else generateHTML(allEmployees)
+            } else fs.appendFileSync('./dist/Team-Profile.html', generateHTMLFooter);
+            return console.log("Finished instance of Profile generated");
         });
 }
 
 engineerPrompt = () => {
     inquirer.prompt(engineerQuestions)
         .then((response) => {
-            engineerPush(response);
+            fs.appendFileSync('./dist/Team-Profile.html', engineerCard(response));
             if (response.engineerAdd === "Manager")
                 return managerPrompt();
             else if (response.engineerAdd === "Engineer") {
                 return engineerPrompt();
             } else if (response.engineerAdd === "Intern") {
                 return internPrompt();
-            } else generateHTML(allEmployees)
+            } else fs.appendFileSync('./dist/Team-Profile.html', generateHTMLFooter);
+            return console.log("Finished instance of Profile generated");
         });
 }
 
 internPrompt = () => {
     inquirer.prompt(internQuestions)
         .then((response) => {
-            internPush(response);
+            fs.appendFileSync('./dist/Team-Profile.html', internCard(response));
             if (response.internAdd === "Manager")
                 return managerPrompt();
             else if (response.internAdd === "Engineer") {
                 return engineerPrompt();
             } else if (response.internAdd === "Intern") {
                 return internPrompt();
-            } else console.log(allEmployees)
+            } else fs.appendFileSync('./dist/Team-Profile.html', generateHTMLFooter);
+            return console.log("Finished instance of Profile generated");
         });
 }
 
-init()
+// HTML CREATED FROM PREVIOUS PROMPTS
+function managerCard(response) {
+    let mng = new Manager(response.managerName, response.managerID, response.managerEmail, response.officeNumber);
+    return `
+    <div class="card col-4 bg-light">
+        <div class="card-header text-white bg-primary">
+            <h4>${mng.name}</h4>
+            <h5 class="card-title text-white"><i class="fas fa-mug-hot"></i></h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">ID: ${mng.ID}</li>
+                <li class="list-group-item">Email: <a href="mailto:${mng.email}"></a></li>
+                <li class="list-group-item">Office Number: <a href="${mng.officeNumber}"></a></li>
+            </ul>
+        </div>
+</div>`
+}
+
+function engineerCard(response) {
+    let eng = new Engineer(response.engineerName, response.engineerID, response.engineerEmail, response.github);
+    return `
+    <div class="card cold-4 bg-light">
+        <div class="card-header text-white bg-primary">
+            <h4>${eng.name}</h4>
+            <h5 class="card-title text-white"><i class="fas fa-glasses"></i></h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">ID: ${eng.ID}</li>
+                <li class="list-group-item">Email: <a href="mailto:${eng.email}"></a></li>
+                <li class="list-group-item">GitHub:
+                    <a href="https://github.com/${eng.github}" target="_blank">${eng.github}</a>
+                </li>
+            </ul>
+        </div>
+</div>`
+}
+
+function internCard(response) {
+    let int = new Intern(response.internName, response.internID, response.internEmail, response.school);
+    return `
+    <div class="card col-4 bg-light">
+        <div class="card-header text-white bg-primary">
+            <h4>${int.name}</h4>
+            <h5 class="card-title text-white"><i class="fas fa-user-graduate"></i></h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item">ID: ${int.ID}</li>
+                <li class="list-group-item">Email: <a href="mailto:${int.email}"></a></li>
+                <li class="list-group-item">School: <a href="${int.school}"></a></li>
+            </ul>
+        </div>
+</div>`
+}
+
+init();
