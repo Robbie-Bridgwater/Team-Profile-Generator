@@ -77,7 +77,7 @@ internPrompt = () => {
         });
 }
 
-// HTML CREATED FROM PREVIOUS PROMPTS
+// HTML CONTAINING DATA EXTRAPOLATED FROM PROMPTS
 function managerCard(response) {
     let mng = new Manager(response.managerName, response.managerID, response.managerEmail, response.officeNumber);
     return `
