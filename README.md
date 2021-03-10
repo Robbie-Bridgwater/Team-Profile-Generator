@@ -2,7 +2,7 @@
 -  A command-line application that takes in information about employees on a software engineering team, then generates an HTML webpage that displays summaries for each person. It also contains tests to make sure the application works.
 
 ## Link To Video Walk-through of application functionality and how to run testing
-Launch the app ---> [here](https://drive.google.com/file/d/14jbpXlXFb-bP9ghZziJ0cVHlLSJuDAqm/view)
+Launch the video ---> [here](https://drive.google.com/file/d/14jbpXlXFb-bP9ghZziJ0cVHlLSJuDAqm/view)
 
 ## User Story
 
@@ -36,6 +36,6 @@ Launch the app ---> [here](https://drive.google.com/file/d/14jbpXlXFb-bP9ghZziJ0
 - SQL
 
 ## Screenshots
-Sample of generated README --->
+App in action --->
 
 ![image](app/assets/img/screenshot.png)
