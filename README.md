@@ -1,41 +1,53 @@
 # Team-Profile-Generator
--  A command-line application that takes in information about employees on a software engineering team, then generates an HTML webpage that displays summaries for each person. It also contains tests to make sure the application works.
+A command-line application that takes in information about employees on a software engineering team, then generates an HTML webpage that displays summaries for each person. It also contains tests to make sure the application works.
 
-## Link To Video Walk-through of application functionality and how to run testing
+## Contents
+Section | Description
+------------ | -------------
+[Deployment](#Walk-Through) | Link to Video Walk-Through
+[Technologies](#Technologies) | Technologies Used
+[Installation](#Installation) | Installation Information
+[Usage](#Usage) | How to use the application
+[Screenshots](#Screenshots) | Screenshots of the deployed application
+[Licence](#licence) | Licence for the source code
+[Questions](#Questions?) | Where you can reach me
+
+## Walk-Through
 Launch the video ---> [here](https://drive.google.com/file/d/14jbpXlXFb-bP9ghZziJ0cVHlLSJuDAqm/view)
 
-## User Story
 
-- AS A manager
-- I WANT to generate a webpage that displays my team's basic info
-- SO THAT I have quick access to their emails and GitHub profiles
-
-
-## Acceptance Criteria
-- GIVEN a command-line application that accepts user input
-- WHEN I am prompted for my team members and their information
-- THEN an HTML file is generated that displays a nicely formatted team roster based on user input
-- WHEN I click on an email address in the HTML
-- THEN my default email program opens and populates the TO field of the email with the address
-- WHEN I click on the GitHub username
-- THEN that GitHub profile opens in a new tab
-- WHEN I start the application
-- THEN I am prompted to enter the team manager’s name, employee ID, email address, and office number
-- WHEN I enter the team manager’s name, employee ID, email address, and office number
-- THEN I am presented with a menu with the option to add an engineer or an intern or to finish building my team
-- WHEN I select the engineer option
-- THEN I am prompted to enter the engineer’s name, ID, email, and GitHub username, and I am taken back to the menu
-- WHEN I select the intern option
-- THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
-- WHEN I decide to finish building my team
-- THEN I exit the application, and the HTML is generated
-
-## Languages Used
+## Technologies Used
 
 - JavaScript
 - SQL
+
+## Installation
+ To run this application locally, do the following:
+ - (i) Clone this repository from GitHub
+- (ii) This app contains a package.json so you just need to run `npm i` from the root directory to install the relative node packages
+- (iii) run `npm start` in the terminal from the root directory 
+
+## Usage
+* Follow the installation instructions above to run the app on your local device.
+* a video  walkthrough can be found at the top of the README as well
 
 ## Screenshots
 App in action --->
 
 ![image](app/assets/img/screenshot.png)
+
+## License
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+> This project was created under the standard MIT licence.
+
+> [Learn more about this licence.](https://lbesson.mit-license.org/)
+
+
+## Questions?
+
+Please contact me through my GitHub provided below if you have any questions relating to how the application works or any of my other projects
+
+My GitHub username is Robbie-Bridgwater
+
+Link to my GitHub Profile ---> https://github.com/Robbie-Bridgwater
